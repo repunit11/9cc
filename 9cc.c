@@ -173,6 +173,7 @@ Node *new_node_num(int val)
 static Node *expr();
 static Node *mul();
 static Node *primary();
+static Node *unary();
 
 static Node *expr()
 {
@@ -197,23 +198,36 @@ static Node *expr()
 
 static Node *mul()
 {
-    Node *node = primary();
+    Node *node = unary();
 
     for (;;)
     {
         if (consume('*'))
         {
-            node = new_node(ND_MUL, node, primary());
+            node = new_node(ND_MUL, node, unary());
         }
         else if (consume('/'))
         {
-            node = new_node(ND_DIV, node, primary());
+            node = new_node(ND_DIV, node, unary());
         }
         else
         {
             return node;
         }
     }
+}
+
+static Node *unary()
+{
+    if (consume('+'))
+    {
+        return primary();
+    }
+    else if (consume('-'))
+    {
+        return new_node(ND_SUB, new_node_num(0), primary());
+    }
+    return primary();
 }
 
 static Node *primary()
