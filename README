@@ -1,0 +1,7 @@
+# C compiler
+
+## 実行方法
+
+``` gcc -o 9cc 9cc.c ```
+``` ./9cc $arg > tmp.s ```
+``` gcc -o tmp tmp.s ```
