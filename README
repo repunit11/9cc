@@ -2,6 +2,33 @@
 
 ## 実行方法
 
-``` gcc -o 9cc 9cc.c ```
-``` ./9cc $arg > tmp.s ```
-``` gcc -o tmp tmp.s ```
+### ビルド（makeを使う）
+
+```
+make
+```
+
+### ビルド（makeを使わない）
+
+```
+gcc -std=c11 -g -static -c 9cc.c
+gcc -std=c11 -g -static -c tokenize.c
+gcc -std=c11 -g -static -c parse.c
+gcc -std=c11 -g -static -c codegen.c
+gcc -o 9cc 9cc.o tokenize.o parse.o codegen.o
+```
+
+### 実行（共通）
+
+```
+./9cc '1+2*3' > tmp.s
+gcc -o tmp tmp.s
+./tmp
+echo $?
+```
+
+### テスト
+
+```
+make test
+```
